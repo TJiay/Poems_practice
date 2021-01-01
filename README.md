@@ -3,6 +3,7 @@
 **run `python main.py` to start practice writing poems on silent**
 
 ## Some problems to be improved
-[-] Verify the answer.
+- [ ] Verify the answer.
 
-[-] Only change the object, not creat the object.
+- [ ] Only change the object, not creat the object.
+
