@@ -2,7 +2,7 @@ import os
 import random as rd
 
 DatePath = "./poems.txt"
-Random = 0.1 #10%
+Random_rate = 0.1 #10%
 
 class Poems(object):
     def __init__(self, thePoems: str):
@@ -28,6 +28,7 @@ class Poems(object):
     def Answer(self):
         answers_input = input("Your answers['dk' to see the answers]: ")
         if answers_input == 'dk': print('\nThe Answers: ', self.thePoems)
+        # TODO: Verify the answer <02-01-21, Tujiay> #
 
     def Tonext(self):
         continue_or_exit = input("\nDo you want to continue or exit?['k' to exit]: ")
@@ -35,12 +36,12 @@ class Poems(object):
 
 
 with open(DatePath, 'r') as poems:
-    num = int(input("[Input number of poem]: "))
-    count = 0
+    number_of_poems = int(input("[Input number of poem]: "))
+    count, random_max_num = 0, int(1/Random_rate) - 1
     for i in poems.readlines():
-        if count == num: break
+        if count == number_of_poems: break
         os.system('clear')
-        random_number = rd.randint(1, (int(1/Random) - 1))
+        random_number = rd.randint(1, random_max_num)
         if random_number == 1:
             count += 1
             ob = Poems(i)
