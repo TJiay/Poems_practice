@@ -36,6 +36,7 @@ class Poems(object):
 
 
 with open(DatePath, 'r') as poems:
+    os.system('clear')
     number_of_poems = int(input("[Input number of poem]: "))
     count, random_max_num = 0, int(1/Random_rate) - 1
     for i in poems.readlines():
