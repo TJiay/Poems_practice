@@ -13,31 +13,36 @@ class Poems(object):
         self.chooseNumber = rd.randint(0, self.poemsLens - 1)
 
     def Println(self):
-        def str_patten(num: int): return '\033[4m' + '　'*num + '\033[0m'
+        def underline(num: int): return '\033[4m' + '　'*num + '\033[0m'
         for i in range(self.poemsLens):
             if i == self.chooseNumber:
                 print('\033[1m', self.poemsArray[i], '\033[0m', end='')
             if i < self.chooseNumber:
-                print(str_patten(self.poemsLenArray[i]), end=',')
+                print(underline(self.poemsLenArray[i]), end=',')
             if i > self.chooseNumber:
-                print(',', str_patten(self.poemsLenArray[i]), end='')
+                print(',', underline(self.poemsLenArray[i]), end='')
         print("\n")
         self.Answer()
         self.Tonext()
 
     def Answer(self):
-        answers_input = input("Your answers['dk' to see the answers]: ")
-        if answers_input == 'dk': print('\nThe Answers: ', self.thePoems)
+        answers_input = input(" Your answers['a' to see the answers]: ")
+        if answers_input == 'a': print('\n The Answers: ', self.thePoems)
         # TODO: Verify the answer <02-01-21, Tujiay> #
 
     def Tonext(self):
-        continue_or_exit = input("\nDo you want to continue or exit?['k' to exit]: ")
-        if continue_or_exit == 'k': exit(0)
+        continue_or_exit = input("\n Do you want to continue or exit?['q' to exit]: ")
+        if continue_or_exit == 'q':
+            print('\033[1;32m', 'Goodbye!', '\033[0m')
+            exit(0)
 
 
 with open(DatePath, 'r') as poems:
     os.system('clear')
-    number_of_poems = int(input("[Input number of poem]: "))
+    number_of_poems = int(input(" Input number of poem[Max: 20, '0' to exit]: "))
+    while(number_of_poems >= 20):
+        print('\033[1;31m', 'Number is very big', '\033[0m')
+        number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
     count, random_max_num = 0, int(1/Random_rate) - 1
     for i in poems.readlines():
         if count == number_of_poems: break
@@ -47,4 +52,7 @@ with open(DatePath, 'r') as poems:
             count += 1
             ob = Poems(i)
             ob.Println()
-    print('\033[1;32m', 'You are great!You passed!😎', '\033[0m')
+    if number_of_poems == 0:
+        print('\033[1;31m', 'What are you doing?', '\033[0m')
+    else:
+        print('\033[1;32m', 'You are great!You passed!😎', '\033[0m')
