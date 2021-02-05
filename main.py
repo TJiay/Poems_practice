@@ -2,7 +2,7 @@ import os
 import random as rd
 
 DatePath = "./poems.txt"
-Random_rate = 0.1 #10%
+Random_rate = 0.2 #20%
 
 class Poems(object):
     def __init__(self, thePoems: str):
@@ -21,14 +21,19 @@ class Poems(object):
                 print(underline(self.poemsLenArray[i]), end=',')
             if i > self.chooseNumber:
                 print(',', underline(self.poemsLenArray[i]), end='')
-        print("\n")
+        print()
         self.Answer()
         self.Tonext()
 
     def Answer(self):
-        answers_input = input(" Your answers['a' to see the answers]: ")
-        if answers_input == 'a': print('\n The Answers: ', self.thePoems)
-        # TODO: Verify the answer <02-01-21, Tujiay> #
+        def l(n):
+            if n + 1 > self.chooseNumber: return n + 1
+            else: return n
+        for i in range(self.poemsLens - 1):
+            answers_input = input(f"\n Your answers for {i}['a' to see the answers]: ")
+            if answers_input == 'a': print('\n The Answers: ', self.poemsArray[l(i)])
+            elif answers_input == self.poemsArray[l(i)]: print('\033[1;32m', 'Good job!', '\033[0m')
+            else: print('\033[1;31m', 'Error!', '\033[0m')
 
     def Tonext(self):
         continue_or_exit = input("\n Do you want to continue or exit?['q' to exit]: ")
