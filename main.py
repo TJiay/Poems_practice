@@ -1,63 +1,64 @@
-import os
-import random as rd
-
-DatePath = "./poems.txt"
-Random_rate = 0.2 #20%
+from os import system
+from re import findall
+from random import randint
 
 class Poems(object):
     def __init__(self, thePoems: str):
-        self.thePoems = thePoems.rstrip('\n')
-        self.poemsArray = thePoems.rstrip('\n').split(' ,')
-        self.poemsLens = len(self.poemsArray)
-        self.poemsLenArray = [len(i) for i in self.poemsArray]
-        self.chooseNumber = rd.randint(0, self.poemsLens - 1)
+        if thePoems != '':
+            self.poemsSentences = findall(r".*?[。；？！]”?", thePoems)
+            self.poemsArray = [findall(r"“?(.*?)[，。：]", i) for i in self.poemsSentences]
+            self.poemsLens = [len(i) for i in self.poemsArray]
+            self.poemsSentencesLen = len(self.poemsArray)
 
-    def Println(self):
-        def underline(num: int): return '\033[4m' + '　'*num + '\033[0m'
-        for i in range(self.poemsLens):
-            if i == self.chooseNumber:
-                print('\033[1m', self.poemsArray[i], '\033[0m', end='')
-            if i < self.chooseNumber:
-                print(underline(self.poemsLenArray[i]), end=',')
-            if i > self.chooseNumber:
-                print(',', underline(self.poemsLenArray[i]), end='')
-        print()
-        self.Answer()
-        self.Tonext()
+    def Println(self, thePoems: str):
+        self.__init__(thePoems)
+        def underline(num: int): return ' ' + '\033[4m' + '　'*num + '\033[0m'
+        for i in range(self.poemsSentencesLen):
+            if self.poemsLens[i] == 1: continue
+            if randint(1, 5) == 1:
+                self.chooseNumber = randint(0, self.poemsLens[i] - 1)
+                self.poemsLenArray = [len(k) for k in self.poemsArray[i]]
+                for j in range(self.poemsLens[i]):
+                    if j == self.chooseNumber: print('\033[1m', self.poemsArray[i][j], '\033[0m', end='')
+                    if j < self.chooseNumber: print(underline(self.poemsLenArray[j]), end='，')
+                    if j > self.chooseNumber: print(',', underline(self.poemsLenArray[j]), end='')
+                self.Answer(i)
+                self.Tonext()
 
-    def Answer(self):
-        def l(n):
-            if n + 1 > self.chooseNumber: return n + 1
-            else: return n
-        for i in range(self.poemsLens - 1):
-            answers_input = input(f"\n Your answers for {i}['a' to see the answers]: ")
-            if answers_input == 'a': print('\n The Answers: ', self.poemsArray[l(i)])
-            elif answers_input == self.poemsArray[l(i)]: print('\033[1;32m', 'Good job!', '\033[0m')
-            else: print('\033[1;31m', 'Error!', '\033[0m')
+    def Answer(self, n: int):
+        def f(i: int): return i + 1 if i + 1 > self.chooseNumber else i
+        for i in range(self.poemsLens[n] - 1):
+            answers_input = input(f"\n Your answers for {i} ['a' to see the answers]: ")
+            if answers_input == 'a': print('\n The Answers: ', self.poemsArray[n][f(i)])
+            elif answers_input == self.poemsArray[n][f(i)]: print('\033[1;32m', 'Good job!', '\033[0m')
+            else:
+                print('\033[1;31m', 'Error!', '\033[0m')
+                print(' The Answers: ', self.poemsArray[n][f(i)])
 
     def Tonext(self):
         continue_or_exit = input("\n Do you want to continue or exit?['q' to exit]: ")
         if continue_or_exit == 'q':
             print('\033[1;32m', 'Goodbye!', '\033[0m')
             exit(0)
+        system('clear')
 
+system('clear')
+ob = Poems('')
+count = 0
+Grade = input(" Chooes grade[7, 8, 9]: ")
+DatePath = f"/home/tujiay/python/Poems/Data/PoemsOfGrade{Grade}.txt"
 
-with open(DatePath, 'r') as poems:
-    os.system('clear')
-    number_of_poems = int(input(" Input number of poem[Max: 20, '0' to exit]: "))
-    while(number_of_poems >= 20):
-        print('\033[1;31m', 'Number is very big', '\033[0m')
-        number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
-    count, random_max_num = 0, int(1/Random_rate) - 1
-    for i in poems.readlines():
-        if count == number_of_poems: break
-        os.system('clear')
-        random_number = rd.randint(1, random_max_num)
-        if random_number == 1:
-            count += 1
-            ob = Poems(i)
-            ob.Println()
-    if number_of_poems == 0:
-        print('\033[1;31m', 'What are you doing?', '\033[0m')
-    else:
-        print('\033[1;32m', 'You are great!You passed!😎', '\033[0m')
+number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
+while(number_of_poems >= 20):
+    print('\033[1;31m', 'Warning: the number is bigger than 20', '\033[0m')
+    number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
+
+with open(DatePath, 'r') as poems_file:
+    while (i := poems_file.readline()) and (count != number_of_poems):
+        if i[0] == '#': continue
+        system('clear')
+        count = count + 1
+        ob.Println(i.rstrip("\n"))
+
+if number_of_poems == 0: print('\033[1;31m', 'What are you doing?', '\033[0m')
+else: print('\033[1;32m', 'You are great!You passed!😎', '\033[0m')
