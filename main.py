@@ -1,12 +1,11 @@
 from os import system
 from re import findall
-from random import randint
+from random import randint, random
 
 class Poems(object):
     def __init__(self, thePoems: str):
         if thePoems != '':
-            self.poemsSentences = findall(r".*?[。；？！]”?", thePoems)
-            self.poemsArray = [findall(r"“?(.*?)[，。：]", i) for i in self.poemsSentences]
+            self.poemsArray = [findall(r"“?(.*?)[，。：]", i) for i in findall(r".*?[。；？！]”?", thePoems)]
             self.poemsLens = [len(i) for i in self.poemsArray]
             self.poemsSentencesLen = len(self.poemsArray)
 
@@ -14,8 +13,8 @@ class Poems(object):
         self.__init__(thePoems)
         def underline(num: int): return ' ' + '\033[4m' + '　'*num + '\033[0m'
         for i in range(self.poemsSentencesLen):
-            if self.poemsLens[i] == 1: continue
-            if randint(1, 5) == 1:
+            if self.poemsLens[i] == 1 or self.poemsLens[i] == 0: continue
+            if random() < 0.4:
                 self.chooseNumber = randint(0, self.poemsLens[i] - 1)
                 self.poemsLenArray = [len(k) for k in self.poemsArray[i]]
                 for j in range(self.poemsLens[i]):
@@ -37,9 +36,7 @@ class Poems(object):
 
     def Tonext(self):
         continue_or_exit = input("\n Do you want to continue or exit?['q' to exit]: ")
-        if continue_or_exit == 'q':
-            print('\033[1;32m', 'Goodbye!', '\033[0m')
-            exit(0)
+        if continue_or_exit == 'q': print('\033[1;32m', 'Goodbye!', '\033[0m'); exit(0)
         system('clear')
 
 system('clear')
@@ -48,10 +45,10 @@ count = 0
 Grade = input(" Chooes grade[7, 8, 9]: ")
 DatePath = f"/home/tujiay/python/Poems/Data/PoemsOfGrade{Grade}.txt"
 
-number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
-while(number_of_poems >= 20):
-    print('\033[1;31m', 'Warning: the number is bigger than 20', '\033[0m')
-    number_of_poems = int(input("\n Input number of poem[Max: 20]: "))
+number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
+while(number_of_poems >= 50):
+    print('\033[1;31m', 'Warning: the number is bigger than 50', '\033[0m')
+    number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
 
 with open(DatePath, 'r') as poems_file:
     while (i := poems_file.readline()) and (count != number_of_poems):
