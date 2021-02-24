@@ -9,12 +9,12 @@ class Poems(object):
             self.poemsLens = [len(i) for i in self.poemsArray]
             self.poemsSentencesLen = len(self.poemsArray)
 
-    def Println(self, thePoems: str):
+    def Println(self, thePoems: str, randomRate = 0.4):
         self.__init__(thePoems)
         def underline(num: int): return ' ' + '\033[4m' + '　'*num + '\033[0m'
         for i in range(self.poemsSentencesLen):
-            if self.poemsLens[i] == 1 or self.poemsLens[i] == 0: continue
-            if random() < 0.4:
+            if self.poemsLens[i] <= 1: continue
+            if random() < randomRate:
                 self.chooseNumber = randint(0, self.poemsLens[i] - 1)
                 self.poemsLenArray = [len(k) for k in self.poemsArray[i]]
                 for j in range(self.poemsLens[i]):
@@ -45,8 +45,9 @@ count = 0
 Grade = input(" Chooes grade[7, 8, 9]: ")
 DatePath = f"/home/tujiay/python/Poems/Data/PoemsOfGrade{Grade}.txt"
 
+max_number_of_poems = 50
 number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
-while(number_of_poems >= 50):
+while(number_of_poems >= max_number_of_poems):
     print('\033[1;31m', 'Warning: the number is bigger than 50', '\033[0m')
     number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
 
