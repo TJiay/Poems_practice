@@ -1,5 +1,6 @@
 # Practice ancient poetry
 ## Getting Started
+**Note: the python verison is 3.8+**
 **run `python main.py` to start practice writing poems on silent**
 
 ## Some problems to be improved

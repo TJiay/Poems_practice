@@ -1,6 +1,7 @@
 from os import system
 from re import findall
 from random import randint, random
+from sys import version as python_version
 
 class Poems(object):
     def __init__(self, thePoems: str):
@@ -43,7 +44,7 @@ system('clear')
 ob = Poems('')
 count = 0
 Grade = input(" Chooes grade[7, 8, 9]: ")
-DatePath = f"/home/tujiay/python/Poems/Data/PoemsOfGrade{Grade}.txt"
+DatePath = f"./Data/PoemsOfGrade{Grade}.txt"
 
 max_number_of_poems = 50
 number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
@@ -52,11 +53,20 @@ while(number_of_poems >= max_number_of_poems):
     number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
 
 with open(DatePath, 'r') as poems_file:
-    while (i := poems_file.readline()) and (count != number_of_poems):
-        if i[0] == '#': continue
-        system('clear')
-        count = count + 1
-        ob.Println(i.rstrip("\n"))
+    if int(python_version[2]) < 8:
+        i = 0
+        while i and (count != number_of_poems):
+            if i[0] == '#': continue
+            system('clear')
+            count = count + 1
+            i = poems_file.readline()
+            ob.Println(i.rstrip("\n"))
+    else:
+        while (i := poems_file.readline()) and (count != number_of_poems):
+            if i[0] == '#': continue
+            system('clear')
+            count = count + 1
+            ob.Println(i.rstrip("\n"))
 
 if number_of_poems == 0: print('\033[1;31m', 'What are you doing?', '\033[0m')
 else: print('\033[1;32m', 'You are great!You passed!😎', '\033[0m')
