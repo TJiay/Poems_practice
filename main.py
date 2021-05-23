@@ -66,7 +66,7 @@ max_number_of_poems = 50
 listDir = listdir("./Data/")
 for filename in listDir:
     # print(filename)
-    grade_scr = findall(r"PoemsOfGrade(.*)", filename)[0]
+    grade_scr = findall(r"PoemsOfGrade(.*).txt", filename)[0]
     grade_arr.append(int(grade_scr))
 
 # Begin
