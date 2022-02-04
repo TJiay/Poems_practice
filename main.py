@@ -3,6 +3,8 @@ from re import findall
 from random import randint, random
 from sys import version as python_version
 
+# TODO: def a _print function to print any style word  
+
 # Poems object
 class Poems(object):
     def __init__(self, thePoems: str):
@@ -57,8 +59,8 @@ class Poems(object):
                 print('\033[1;31m', 'Error!', '\033[0m')
                 print(' The Answers: ', self.poemsArray[n][f(i)])
 
-system('clear')
-ob = Poems('')
+system('clear') # Note: this is Linux command. The windows is 'cls'
+ob = Poems('')  # Create a poems object
 count, grade_arr = 0, []
 max_number_of_poems = 50
 
@@ -79,16 +81,19 @@ while(number_of_poems >= max_number_of_poems):
 
 DatePath = f"./Data/PoemsOfGrade{Grade}.txt"
 
+# Main interactive
 with open(DatePath, 'r') as poems_file:
-    if int(python_version[2]) < 8: # python_version < 3.8
+    if int(python_version[2]) < 8:
         i = 0
         while i and (count != number_of_poems):
-            if i[0] == '#': continue
+            if i[0] == '#': 
+                # TODO: Get the poem the title and poet name
+                continue
             system('clear')
             count = count + 1
             i = poems_file.readline()
             ob.Println(i.rstrip("\n"))
-    else: # python_version >= 3.8
+    else: # := need python_version >= 3.8
         while (i := poems_file.readline()) and (count != number_of_poems):
             if i[0] == '#': continue
             system('clear')

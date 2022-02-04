@@ -1,13 +1,12 @@
 # Practice ancient poetry
 ## Getting Started
-**Note: the python verison is 3.8+**
-**run `python main.py` to start practice writing poems on silent**
+**Note: run this program need the python verison is 3.8+.**
+**run `python main.py` to start practice writing poems on silent.This can let you have a good time!**
 
 ## Features
-1. You can customize your own poem date
+1. You can customize your own poem date.
+2. The training way is very effective.
 
-## Some problems to be improved
-- [x] Verify the answer.
-
-- [x] Only change the object, not creat the object.
-
+## Next do
+- [ ] Finish the Peoms of 11 grade.
+- [ ] Change code to let the program better.
