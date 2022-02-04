@@ -2,8 +2,10 @@ from os import system, listdir
 from re import findall
 from random import randint, random
 from sys import version as python_version
+from platform import system as system_name
 
 # TODO: def a _print function to print any style word  
+sys_clean_command = {"Windows": "cls", "Linux": "clear"}
 
 # Poems object
 class Poems(object):
@@ -59,7 +61,7 @@ class Poems(object):
                 print('\033[1;31m', 'Error!', '\033[0m')
                 print(' The Answers: ', self.poemsArray[n][f(i)])
 
-system('clear') # Note: this is Linux command. The windows is 'cls'
+system(sys_clean_command[system_name()])
 ob = Poems('')  # Create a poems object
 count, grade_arr = 0, []
 max_number_of_poems = 50
@@ -70,6 +72,7 @@ for filename in listDir:
     # print(filename)
     grade_scr = findall(r"PoemsOfGrade(.*).txt", filename)[0]
     grade_arr.append(int(grade_scr))
+grade_arr.sort()
 
 # Begin
 Grade = input(f" Chooes grade{grade_arr}: ")
@@ -79,26 +82,29 @@ while(number_of_poems >= max_number_of_poems):
     print('\033[1;31m', 'Warning: the number is bigger than 50', '\033[0m')
     number_of_poems = int(input("\n Input number of poem[Max: 50]: "))
 
-DatePath = f"./Data/PoemsOfGrade{Grade}.txt"
+DataPath = f"./Data/PoemsOfGrade{Grade}.txt"
 
 # Main interactive
-with open(DatePath, 'r') as poems_file:
-    if int(python_version[2]) < 8:
-        i = 0
+with open(DataPath, 'r') as poems_file:
+    if int(python_version[2]) >= 5 and int(python_version[2]) <= 7: # 3.5 <=python_version <= 3.7
+        i = 1
         while i and (count != number_of_poems):
-            if i[0] == '#': 
-                # TODO: Get the poem the title and poet name
-                continue
-            system('clear')
-            count = count + 1
             i = poems_file.readline()
+            if i[0] == '#':
+                # TODO: Get the poem title and poet name
+                continue
+            system(sys_clean_command[system_name()])
             ob.Println(i.rstrip("\n"))
+            count = count + 1
     else: # := need python_version >= 3.8
         while (i := poems_file.readline()) and (count != number_of_poems):
-            if i[0] == '#': continue
-            system('clear')
-            count = count + 1
+            if i[0] == '#':
+                # TODO: Get the poem title and poet name 
+                continue
+            print(python_version)
+            system(sys_clean_command[system_name()])
             ob.Println(i.rstrip("\n"))
+            count = count + 1
 
 # End
 if number_of_poems == 0:

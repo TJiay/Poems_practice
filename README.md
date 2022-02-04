@@ -10,3 +10,5 @@
 ## Next do
 - [ ] Finish the Peoms of 11 grade.
 - [ ] Change code to let the program better.
+
+**Note:If the display poems number is not you input, remmber this is not a bug.This is random\!**
